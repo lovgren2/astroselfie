@@ -104,18 +104,6 @@ def update_plot(frame, all_obs, ax, planet_colors, days, planet_obs_from):
         markers, labels = zip(*plotted_planets)
         ax.legend(markers, labels, loc='upper right', fontsize='small')
 
-def plot_sky(planet_observer):
-    days = sols_per_planet_year[planet_observer]
-    planet_name = planet_names[planet_observer]
-    planet_obs_from = planets[planet_name]
-
-    all_obs = []
-    for year in years:
-        all_obs.extend(get_planet_observation(planet_observer, year, ts))
-
-    ani = animation.FuncAnimation(fig, update_plot, frames=len(years) * days, fargs=(all_obs, ax, planet_colors, days, planet_obs_from), repeat=True, interval=200)
-    ani.save('astroselfie-precompute.gif')
-
 def generate_frames(args):
     frame, all_obs, planet_colors, days, planet_data = args
     planet_name, ts = planet_data
@@ -161,5 +149,3 @@ if __name__ == '__main__':
     multiprocessing.freeze_support()
     plot_sky_parallel(0)
     print("Done.")
-
-
