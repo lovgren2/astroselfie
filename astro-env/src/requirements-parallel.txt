@@ -2,3 +2,4 @@ skyfield
 matplotlib
 multiprocess
 futures
+pandas
