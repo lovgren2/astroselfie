@@ -10,6 +10,10 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from datetime import datetime
 from concurrent import futures
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
 
 # Get the current date and time to create a unique file name for the GIF file
 current_datetime = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -115,7 +119,7 @@ def generate_frames(args):
     # Create the img folder if it doesn't exist
     img_folder = 'img'
     if not os.path.exists(img_folder):
-        print("Created temporary folder: img")
+        logging.info("Created temporary folder: img")
         os.makedirs(img_folder)
     
     # Save the figure to the img folder
@@ -143,16 +147,16 @@ def plot_sky_parallel(planet_observer):
     # Load images and create GIF
     frames = [Image.open(path) for path in frames_paths]
     frames[0].save('astroselfie-parallel.gif', save_all=True, append_images=frames[1:], optimize=False, duration=200, loop=0)
-    print("Created file: astroselfie-parallel.gif")
+    logging.info("Created file: astroselfie-parallel.gif")
 
     # Cleanup: Delete the img files and folder
     img_folder = 'img'
     for path in frames_paths:
         os.remove(path)
     os.rmdir(img_folder)
-    print("Removed temporary folder: img")
+    logging.info("Removed temporary folder: img")
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
     plot_sky_parallel(0)
-    print("Done.")
+    logging.info("Done.")
