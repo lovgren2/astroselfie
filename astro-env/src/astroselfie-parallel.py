@@ -115,6 +115,7 @@ def generate_frames(args):
     # Create the img folder if it doesn't exist
     img_folder = 'img'
     if not os.path.exists(img_folder):
+        print("Created temporary folder: img")
         os.makedirs(img_folder)
     
     # Save the figure to the img folder
@@ -123,8 +124,6 @@ def generate_frames(args):
     
     plt.close(fig)  # Close the figure to avoid memory leaks
     return file_path
-
-
 
 def plot_sky_parallel(planet_observer):
     days = sols_per_planet_year[planet_observer]
@@ -140,10 +139,18 @@ def plot_sky_parallel(planet_observer):
 
     with futures.ProcessPoolExecutor() as executor:
         frames_paths = list(executor.map(generate_frames, [(frame, all_obs_tuple, planet_colors, days, planet_data) for frame in range(len(years) * days)]))
-
+    
     # Load images and create GIF
     frames = [Image.open(path) for path in frames_paths]
     frames[0].save('astroselfie-parallel.gif', save_all=True, append_images=frames[1:], optimize=False, duration=200, loop=0)
+    print("Created file: astroselfie-parallel.gif")
+
+    # Cleanup: Delete the img files and folder
+    img_folder = 'img'
+    for path in frames_paths:
+        os.remove(path)
+    os.rmdir(img_folder)
+    print("Removed temporary folder: img")
 
 if __name__ == '__main__':
     multiprocessing.freeze_support()
