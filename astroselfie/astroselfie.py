@@ -182,7 +182,7 @@ def plot_sky(planet_observer):
         all_obs.extend(daily_obs)
     
     """Create an animation object"""
-    ani = animation.FuncAnimation(fig, update_plot, frames=len(years) * days, fargs=(all_obs, ax, planet_colors, days, planet_obs_from, planet_observer), repeat=True, interval=200)
+    ani = animation.FuncAnimation(fig, update_plot, frames=range(1, len(years) * days), fargs=(all_obs, ax, planet_colors, days, planet_obs_from, planet_observer), repeat=True, interval=200)
 
     """Save the animation object as a gif file"""
     ani.save(str_current_datetime+'_'+str(planet_names[planet_observer])+'_astroselfie.gif')
