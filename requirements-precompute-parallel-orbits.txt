@@ -1,0 +1,6 @@
+skyfield
+matplotlib
+multiprocess
+futures
+pandas
+pillow
